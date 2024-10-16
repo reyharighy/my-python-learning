@@ -1,4 +1,4 @@
-"""main module that handles all game logics"""
+"""Main module that handles all game logics."""
 
 # import necessary libraries
 import time
@@ -56,11 +56,13 @@ while GAME_ON:
     if snake.snake_head.distance(food) < 20:
         food.refresh()
         score.increase_score()
+        snake.extend()
 
     if snake.snake_head.xcor() == TOP_RIGHT_CORNER["x"] or \
         snake.snake_head.xcor() == BOTTOM_LEFT_CORNER["x"] or \
             snake.snake_head.ycor() == TOP_RIGHT_CORNER["y"] or \
                 snake.snake_head.ycor() == BOTTOM_LEFT_CORNER["y"]:
+        score.game_over()
         GAME_ON = False
 
 # exit the game when clicked on the screen
