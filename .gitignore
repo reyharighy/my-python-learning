@@ -1,0 +1,5 @@
+.venv/
+
+Snake\ Game/__pycache__/
+*.pyc
+tes.ipynb
