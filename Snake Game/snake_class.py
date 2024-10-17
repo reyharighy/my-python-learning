@@ -4,7 +4,7 @@ from turtle import Turtle
 from const import (
     STEP, SEGMENT_SIZE, HEAD_SIZE,
     NORTH, SOUTH, WEST, EAST,
-    STARTING_POSITION
+    STARTING_POSITIONS
 )
 
 class Snake:
@@ -16,24 +16,48 @@ class Snake:
 
     def create_snake(self) -> None:
         """Create the snake for a total number of segments."""
-        for position in STARTING_POSITION:
+        for position in STARTING_POSITIONS:
             self.add_segment(position=position)
 
-    def snake_positions(self, current_position = None) -> dict[list]:
-        """Get the snake positions at the start of the game"""
+    def snake_positions(self, current_positions = list[tuple]) -> dict[list]:
+        """
+        Get the snake positions at the start of the game
+
+        Args:
+            current positions: list[tuple]: get the list of current positions of each segment
+        
+        Returns:
+            dict[list]: the span of x and y coordinates of the snake position
+        """
         snake_positions: dict[list] = {"x_pos":[], "y_pos":[]}
 
-        if current_position is None:
-            current_position = STARTING_POSITION
+        # the argument is empty, use the starting position
+        if current_positions is None:
+            current_positions = STARTING_POSITIONS
 
-        for x, y in current_position:
-            if x not in snake_positions["x_pos"]:
-                snake_positions["x_pos"].append(int(x))
+        # adjust the positions to align with the step
+        # avoid the value outside the defined step value
+        def adjust(value: int) -> int:
+            while value % 20 != 0:
+                if value % 20 < 10:
+                    value -= 1
+                else:
+                    value += 1
 
-            if y not in snake_positions["y_pos"]:
-                snake_positions["y_pos"].append(int(y))
+            return value
 
-        print(snake_positions)
+        for x, y in current_positions:
+            x = adjust(value=int(x))
+            y = adjust(value=int(y))
+
+            # append each x and y values into a dictionary
+            snake_positions["x_pos"].append(int(x))
+            snake_positions["y_pos"].append(int(y))
+
+        # avoid x and y duplication
+        for key in snake_positions:
+            snake_positions[key] = set(snake_positions[key])
+
         return snake_positions
 
     def add_segment(self, position: tuple[int]) -> None:

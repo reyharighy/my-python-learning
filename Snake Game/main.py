@@ -25,6 +25,8 @@ SCREEN.tracer(n=0) # wait for the screen update to render
 
 # initialize the game
 snake = Snake()
+
+# spawn the food at the start of the game
 food = Food(snake_positions=snake.snake_positions())
 score = Score()
 wall = Wall()
@@ -53,30 +55,35 @@ while game_on:
     time.sleep(.1) # wait before each screen update
     snake.move()
 
-    # check if the snake head hits its body segments
-    current_positions = []
+    # check if the snake head hits its body segments and get its current positions
+    current_positions = [] # refresh the list to store the current positions
 
     for segment in snake.the_snake:
-        current_positions.append(segment.position())
+        # store the current positions of each segment
+        current_positions.append((int(segment.xcor()), int(segment.ycor())))
 
-        if segment == snake.snake_head:
+        if segment == snake.snake_head: # exclude the snake head
             pass
-        elif snake.snake_head.distance(segment) < (STEP / 2):
+        elif snake.snake_head.distance(segment) < int(STEP / 2):
             score.game_over()
             game_on: bool = False
             break
 
     # check if the snake head hits the food
-    if snake.snake_head.distance(food) < (STEP / 2):
-        food.refresh(food_positions=snake.snake_positions(current_position=current_positions))
+    if snake.snake_head.distance(food) < int(STEP / 2):
         score.increase_score()
         snake.extend()
 
+        # pass the current positions list to refresh the food location
+        food.refresh(food_positions=food.where(
+            snake_positions=snake.snake_positions(current_positions=current_positions)
+        ))
+
     # check if the snake head hits the wall
-    if snake.snake_head.xcor() == TOP_RIGHT_CORNER["x"] or \
-        snake.snake_head.xcor() == BOTTOM_LEFT_CORNER["x"] or \
-            snake.snake_head.ycor() == TOP_RIGHT_CORNER["y"] or \
-                snake.snake_head.ycor() == BOTTOM_LEFT_CORNER["y"]:
+    if snake.snake_head.xcor() >= TOP_RIGHT_CORNER["x"] or \
+        snake.snake_head.xcor() <= BOTTOM_LEFT_CORNER["x"] or \
+            snake.snake_head.ycor() >= TOP_RIGHT_CORNER["y"] or \
+                snake.snake_head.ycor() <= BOTTOM_LEFT_CORNER["y"]:
         score.game_over()
         game_on: bool = False
 
