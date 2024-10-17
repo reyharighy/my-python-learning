@@ -19,7 +19,7 @@ class Snake:
         for position in STARTING_POSITIONS:
             self.add_segment(position=position)
 
-    def snake_positions(self, current_positions = list[tuple]) -> dict[list]:
+    def snake_positions(self, current_positions: list[tuple[int, int]] = None) -> dict[list]:
         """
         Get the snake positions at the start of the game
 
