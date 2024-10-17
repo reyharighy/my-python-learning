@@ -2,7 +2,7 @@
 
 from turtle import Turtle
 from const import (
-    SEGMENT_SIZE,
+    STEP, SEGMENT_SIZE, HEAD_SIZE,
     NORTH, SOUTH, WEST, EAST,
     STARTING_POSITION
 )
@@ -19,6 +19,23 @@ class Snake:
         for position in STARTING_POSITION:
             self.add_segment(position=position)
 
+    def snake_positions(self, current_position = None) -> dict[list]:
+        """Get the snake positions at the start of the game"""
+        snake_positions: dict[list] = {"x_pos":[], "y_pos":[]}
+
+        if current_position is None:
+            current_position = STARTING_POSITION
+
+        for x, y in current_position:
+            if x not in snake_positions["x_pos"]:
+                snake_positions["x_pos"].append(int(x))
+
+            if y not in snake_positions["y_pos"]:
+                snake_positions["y_pos"].append(int(y))
+
+        print(snake_positions)
+        return snake_positions
+
     def add_segment(self, position: tuple[int]) -> None:
         """
         Add new segment either at the start of when the snake eats the food.
@@ -27,9 +44,12 @@ class Snake:
             x: int: the coordinate of x
             y: int: the coordinate of y
         """
+        is_start: bool = len(self.the_snake) == 0
         new_segment = Turtle(shape="square")
         new_segment.penup()
-        new_segment.color("white")
+        new_segment.shape(name="arrow" if is_start else "square")
+        new_segment.shapesize(HEAD_SIZE if is_start else SEGMENT_SIZE)
+        new_segment.color("red" if is_start else "white")
         new_segment.goto(position)
         self.the_snake.append(new_segment)
 
@@ -48,7 +68,7 @@ class Snake:
                 y=self.the_snake[segment_idx - 1].ycor()
             )
 
-        self.snake_head.forward(SEGMENT_SIZE)
+        self.snake_head.forward(STEP)
 
     def head_control(self, heads: tuple[int]) -> None:
         """

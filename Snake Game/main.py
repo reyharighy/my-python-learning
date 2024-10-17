@@ -7,7 +7,7 @@ from snake_class import Snake
 from food_class import Food
 from score_class import Score
 from wall_class import Wall, BOTTOM_LEFT_CORNER, TOP_RIGHT_CORNER
-from const import SCREEN_WIDTH, SCREEN_HEIGHT
+from const import SCREEN_WIDTH, SCREEN_HEIGHT, STEP
 
 # setup the screen
 SCREEN = Screen()
@@ -23,13 +23,13 @@ SCREEN.bgcolor("black")
 SCREEN.title(titlestring="My Snake Game")
 SCREEN.tracer(n=0) # wait for the screen update to render
 
-# create the snake
+# initialize the game
 snake = Snake()
-food = Food()
+food = Food(snake_positions=snake.snake_positions())
 score = Score()
 wall = Wall()
 
-# listen the keyboard input to control the snake
+# listen to keyboard inputs to control the snake
 keys_functions: dict[Snake] = {
     "Up": snake.head_north,
     "Down": snake.head_south,
@@ -46,24 +46,39 @@ for key, func in keys_functions.items():
 SCREEN.listen()
 
 # game on
-GAME_ON = True
+game_on: bool = True
 
-while GAME_ON:
+while game_on:
     SCREEN.update() # render the updated screen
-    time.sleep(.1) # wait a second for before each screen update
+    time.sleep(.1) # wait before each screen update
     snake.move()
 
-    if snake.snake_head.distance(food) < 20:
-        food.refresh()
+    # check if the snake head hits its body segments
+    current_positions = []
+
+    for segment in snake.the_snake:
+        current_positions.append(segment.position())
+
+        if segment == snake.snake_head:
+            pass
+        elif snake.snake_head.distance(segment) < (STEP / 2):
+            score.game_over()
+            game_on: bool = False
+            break
+
+    # check if the snake head hits the food
+    if snake.snake_head.distance(food) < (STEP / 2):
+        food.refresh(food_positions=snake.snake_positions(current_position=current_positions))
         score.increase_score()
         snake.extend()
 
+    # check if the snake head hits the wall
     if snake.snake_head.xcor() == TOP_RIGHT_CORNER["x"] or \
         snake.snake_head.xcor() == BOTTOM_LEFT_CORNER["x"] or \
             snake.snake_head.ycor() == TOP_RIGHT_CORNER["y"] or \
                 snake.snake_head.ycor() == BOTTOM_LEFT_CORNER["y"]:
         score.game_over()
-        GAME_ON = False
+        game_on: bool = False
 
-# exit the game when clicked on the screen
+# close the screen when clicking on the screen
 SCREEN.exitonclick()
