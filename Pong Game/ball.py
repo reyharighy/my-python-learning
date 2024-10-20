@@ -11,7 +11,8 @@ class Ball(Turtle):
         self.penup()
         self.color('blue')
         self.shape(name="circle")
-        self.ball_speed = self.set_direction()
+        self.goto((0, 0)) # set the ball to spawn at the center of the screen
+        self.ball_direction = self.set_direction() # set the initialization as true
 
     def set_direction(self) -> dict:
         """
@@ -21,8 +22,8 @@ class Ball(Turtle):
             dict: get the x and y speed of the ball when moving.
         """
         return {
-            "x_speed": randint(a=5, b=10) * choice(RANDOM_DIRECTION_POWER), 
-            "y_speed": randint(a=5, b=10) * choice(RANDOM_DIRECTION_POWER)
+            "x_speed": randint(a=10, b=20) * choice(RANDOM_DIRECTION_POWER), 
+            "y_speed": randint(a=10, b=20) * choice(RANDOM_DIRECTION_POWER)
         }
 
     def move(self):
@@ -31,10 +32,14 @@ class Ball(Turtle):
         At the initial game, it will move at random direction.
         """
         self.goto(
-            x=self.xcor() + self.ball_speed["x_speed"],
-            y=self.ycor() + self.ball_speed["y_speed"]
+            x=self.xcor() + self.ball_direction["x_speed"],
+            y=self.ycor() + self.ball_direction["y_speed"]
         )
 
     def hit_wall(self):
         """Create a behaviour when the ball hits the wall to bounce"""
-        self.ball_speed["y_speed"] *= -1
+        self.ball_direction["y_speed"] *= -1
+
+    def hit_paddle(self):
+        """Just testing"""
+        self.ball_direction["x_speed"] *= -1

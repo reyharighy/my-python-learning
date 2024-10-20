@@ -8,7 +8,8 @@ from const import (
     SCREEN_WIDTH,
     SCREEN_HEIGHT,
     GAME_NAME,
-    BOTTOM_TOP_WALL_Y
+    BOTTOM_TOP_WALL_Y,
+    X_COR
 )
 
 # set up the screen
@@ -51,7 +52,12 @@ while GAME_ON:
     SCREEN.update()
 
     # detect the ball to bounce when hitting either top or bottom wall
-    if ball.ycor() > BOTTOM_TOP_WALL_Y or ball.ycor() < -(BOTTOM_TOP_WALL_Y):
+    if ball.ycor() >= BOTTOM_TOP_WALL_Y or ball.ycor() <= -(BOTTOM_TOP_WALL_Y):
         ball.hit_wall()
+
+    # test to detect the ball with the paddle
+    if (ball.xcor() >= X_COR and ball.distance(r_paddle) < 50)\
+          or (ball.xcor() <= -X_COR and ball.distance(l_paddle) < 50):
+        ball.hit_paddle()
 
 SCREEN.exitonclick()

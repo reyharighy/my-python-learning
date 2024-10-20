@@ -5,7 +5,7 @@ from const import (
     PADDLE_WIDTH,
     PADDLE_HEIGHT,
     PADDLE_MOVE_SPEED,
-    X_COR, Y_COR
+    Y_COR, X_PADDLE
 )
 
 class Paddle(Turtle):
@@ -20,6 +20,7 @@ class Paddle(Turtle):
     def __init__(self, side: str = None) -> None:
         super().__init__()
         self.penup()
+        self.shape(name="square")
         self.setheading(to_angle=180)
         self.color("white")
 
@@ -29,18 +30,18 @@ class Paddle(Turtle):
             stretch_len=PADDLE_WIDTH
         )
 
-        self.x_cor = X_COR
+        self.x_paddle = X_PADDLE
 
         if side == "left":
-            self.x_cor *= -1
+            self.x_paddle *= -1
             self.setheading(to_angle=0)
 
         self.goto(
-            x=self.x_cor,
+            x=self.x_paddle,
             y=0
         )
 
-    def go_up(self):
+    def go_up(self) -> None:
         """Make the paddle to move up based-on the user key input."""
         if self.ycor() < Y_COR:
             self.goto(
@@ -48,7 +49,7 @@ class Paddle(Turtle):
                 y=self.ycor() + PADDLE_MOVE_SPEED
             )
 
-    def go_down(self):
+    def go_down(self) -> None:
         """Make the paddle to move down based-on the user key input."""
         if self.ycor() > -Y_COR:
             self.goto(
