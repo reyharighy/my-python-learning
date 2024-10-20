@@ -2,4 +2,8 @@
 
 Snake\ Game/__pycache__/
 *.pyc
+
+Pong\ Game/__pycache__/
+*.pyc
+
 tes.ipynb
