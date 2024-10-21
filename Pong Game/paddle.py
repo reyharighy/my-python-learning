@@ -5,7 +5,7 @@ from const import (
     PADDLE_WIDTH,
     PADDLE_HEIGHT,
     PADDLE_MOVE_SPEED,
-    Y_COR, X_PADDLE
+    X_PADDLE, Y_PADDLE
 )
 
 class Paddle(Turtle):
@@ -43,7 +43,7 @@ class Paddle(Turtle):
 
     def go_up(self) -> None:
         """Make the paddle to move up based-on the user key input."""
-        if self.ycor() < Y_COR:
+        if self.ycor() < Y_PADDLE:
             self.goto(
                 x=self.xcor(),
                 y=self.ycor() + PADDLE_MOVE_SPEED
@@ -51,7 +51,7 @@ class Paddle(Turtle):
 
     def go_down(self) -> None:
         """Make the paddle to move down based-on the user key input."""
-        if self.ycor() > -Y_COR:
+        if self.ycor() > -Y_PADDLE:
             self.goto(
                 x=self.xcor(),
                 y=self.ycor() - PADDLE_MOVE_SPEED
