@@ -3,6 +3,7 @@
 import time
 from turtle import Screen
 from player import Player
+from scoreboard import Scoreboard
 from const import (
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
@@ -20,6 +21,7 @@ SCREEN.setup(
 SCREEN.tracer(0)
 
 crosser = Player()
+score = Scoreboard()
 
 # listen to the user controlling inputs
 key_inputs = {
@@ -44,5 +46,6 @@ while GAME_ON:
 
     if crosser.ycor() >= -(PLAYER_STARTING_POS_Y):
         crosser.goto_starting_position()
+        score.increase_level()
 
 SCREEN.exitonclick()
