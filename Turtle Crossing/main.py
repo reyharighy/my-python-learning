@@ -4,6 +4,7 @@ import time
 from turtle import Screen
 from player import Player
 from scoreboard import Scoreboard
+from cars import Cars
 from const import (
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
@@ -22,6 +23,7 @@ SCREEN.tracer(0)
 
 crosser = Player()
 score = Scoreboard()
+cars = Cars()
 
 # listen to the user controlling inputs
 key_inputs = {
@@ -43,6 +45,8 @@ GAME_ON = True
 while GAME_ON:
     time.sleep(0.1)
     SCREEN.update()
+    cars.spawn_a_car()
+    cars.move_cars()
 
     if crosser.ycor() >= -(PLAYER_STARTING_POS_Y):
         crosser.goto_starting_position()

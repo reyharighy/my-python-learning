@@ -12,3 +12,8 @@ STEP_BACK = -5
 SCORE_POS_X = -((SCREEN_WIDTH / 2) - MARGIN)
 SCORE_POS_Y = (SCREEN_HEIGHT / 2) - (MARGIN * 2)
 FONT = ("Calibri", 14, "bold")
+
+CAR_COLORS = ["red", "orange", "yellow", "green", "blue", "purple"]
+CAR_STARTING_POS_X = SCREEN_WIDTH / 2
+CAR_STARTING_POS_Y = list(range(-int(SCREEN_HEIGHT / 2), int(SCREEN_HEIGHT / 2), MARGIN))[3:-2]
+CAR_SPEED = 20
