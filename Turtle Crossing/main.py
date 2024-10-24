@@ -8,7 +8,9 @@ from cars import Cars
 from const import (
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
-    PLAYER_STARTING_POS_Y
+    PLAYER_STARTING_POS_Y,
+    CAR_STARTING_POS_X,
+    CAR_LEAVING_OFFSET
 )
 
 SCREEN = Screen()
@@ -47,9 +49,16 @@ while GAME_ON:
     SCREEN.update()
     cars.spawn_a_car()
     cars.move_cars()
+    print(len(cars.all_cars))
 
     if crosser.ycor() >= -(PLAYER_STARTING_POS_Y):
         crosser.goto_starting_position()
         score.increase_level()
+
+    copy_dict = cars.all_cars.copy()
+
+    for car, _ in copy_dict.items():
+        if car.xcor() < -(CAR_STARTING_POS_X + CAR_LEAVING_OFFSET):
+            del cars.all_cars[car]
 
 SCREEN.exitonclick()

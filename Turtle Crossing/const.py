@@ -16,4 +16,10 @@ FONT = ("Calibri", 14, "bold")
 CAR_COLORS = ["red", "orange", "yellow", "green", "blue", "purple"]
 CAR_STARTING_POS_X = SCREEN_WIDTH / 2
 CAR_STARTING_POS_Y = list(range(-int(SCREEN_HEIGHT / 2), int(SCREEN_HEIGHT / 2), MARGIN))[3:-2]
-CAR_SPEED = 20
+CAR_SPEED = list(range(10, 21))
+
+# the ratio to the power of 20
+CAR_X_RATIO = 1.5
+CAR_Y_RATIO = .8
+
+CAR_LEAVING_OFFSET = 50

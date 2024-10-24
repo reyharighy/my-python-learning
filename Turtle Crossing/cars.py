@@ -6,13 +6,14 @@ from const import (
     CAR_COLORS,
     CAR_STARTING_POS_X,
     CAR_STARTING_POS_Y,
-    CAR_SPEED
+    CAR_SPEED,
+    CAR_X_RATIO, CAR_Y_RATIO
 )
 
 class Cars:
     """The cars class."""
     def __init__(self) -> None:
-        self.all_cars: list[Turtle] = []
+        self.all_cars: dict[Turtle, int] = {}
 
     def spawn_a_car(self) -> None:
         """Spawn a new car at the right end."""
@@ -23,8 +24,8 @@ class Cars:
             new_car.penup()
             new_car.color(choice(seq=CAR_COLORS))
             new_car.shapesize(
-                stretch_wid=1,
-                stretch_len=2
+                stretch_wid=CAR_Y_RATIO,
+                stretch_len=CAR_X_RATIO
             )
 
             new_car.goto(
@@ -32,12 +33,12 @@ class Cars:
                 y=choice(CAR_STARTING_POS_Y)
             )
 
-            self.all_cars.append(new_car)
+            self.all_cars[new_car] = choice(seq=CAR_SPEED)
 
     def move_cars(self) -> None:
         """Make all cars to move."""
-        for car in self.all_cars:
+        for car, speed in self.all_cars.items():
             car.goto(
-                x=car.xcor() - CAR_SPEED,
+                x=car.xcor() - speed,
                 y=car.ycor()
             )
