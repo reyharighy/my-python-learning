@@ -13,7 +13,7 @@ from const import (
 class Cars:
     """The cars class."""
     def __init__(self) -> None:
-        self.all_cars: dict[Turtle, int] = {}
+        self.all_cars: dict[Turtle] = {}
 
     def spawn_a_car(self) -> None:
         """Spawn a new car at the right end."""
